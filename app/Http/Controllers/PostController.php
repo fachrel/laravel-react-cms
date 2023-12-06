@@ -22,7 +22,7 @@ class PostController extends Controller
     {
         $validator = $request->validate([
             // 'user_id'     => 'required',
-            'category' => 'required',
+            // 'category' => 'required',
             'title'       => 'required',
             'content'     => 'required',
             'photo'       => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -42,13 +42,20 @@ class PostController extends Controller
     
         $post = Post::create([
             'user_id'       => '1',
-            'category_id'   => $request->category,
+            'category_id'   => '1',
             'title'         => $request->title,
             'content'       => $request->content,
             'photo'         => $imageName,
         ]);
     
         return new PostResource($post, 'Data Post Berhasil Ditambahkan!');
+    }
+
+    public function show($slug)
+    {
+        $post = Post::where('slug', $slug)->first();
+
+        return response()->json($post);
     }
     
 }
